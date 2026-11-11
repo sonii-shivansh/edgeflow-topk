@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "AI-assisted, unreviewed research code: please cite the exact GitHub commit. No DOI or priority claim established."
+type: software
+title: "EdgeFlow Top-k: Certifying Ranking Stability Under Budgeted Edge Transfers"
+authors:
+  - family-names: Soni
+    given-names: Shivansh
+repository-code: "https://github.com/sonii-shivansh/edgeflow-topk"
+license: MIT
+date-released: 2026-11-11
