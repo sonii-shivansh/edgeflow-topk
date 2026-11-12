@@ -85,3 +85,17 @@ An automatic weekly check has been configured to look for substantive new indepe
 The new `topk_robustness_margin(scores, edges, B, k)` function computes the **exact worst-case separation margin** in O(m+n log n) time, returning an attaining insider-outsider pair. Positive means robust; zero means a tie is feasible; negative means an outsider can outrank an insider. See [proof](research/MARGIN_THEOREM.md), [precision and verification self-audit](research/SELF_AUDIT_2026-11-12.md), and [full literature novelty audit](research/NOVELTY_AUDIT_2026-11-12.md). The new suite adds 2,600 all-pairs checks and 420 independent exact-rational signed-flow enumerations. The open [review packet](research/REVIEW_INVITATION.md) explicitly seeks counterexamples and predecessors.
 
 The updated [v0.2.0-audit GitHub research prerelease](https://github.com/sonii-shivansh/edgeflow-topk/releases/tag/v0.2.0-audit) is an unreviewed public artifact. Its existence does **not** prove originality, peer review, an arXiv submission, or a DOI. The previous v0.1.0 release is retained.
+
+
+## Experimental research extension: directed transfers and two budgets
+
+An additional, separately documented research candidate models **one-way directed arc transfers** under budget F together with independent signed **measurement errors** under budget H. The sharp worst-case original top-k separation margin is obtained in **O(m+n log n)** time through four offline 2D dominance-max sweeps and a correction for favorable forward arcs.
+
+- [Complete directional dual-budget mathematical theorem and proof](research/DIRECTIONAL_DUAL_BUDGET.md)
+- [Experimental implementation and witness constructor](experimental/directional_dual_budget.py)
+- [Independent LP, randomized, and exact-rational perturbation tests](tests/test_directional_dual_budget.py)
+- [Synthetic benchmark and reproducibility instructions](experimental/README.md)
+- [Merged research pull request #2](https://github.com/sonii-shivansh/edgeflow-topk/pull/2)
+- [Open independent mathematical review issue #1](https://github.com/sonii-shivansh/edgeflow-topk/issues/1)
+
+**Status: PROVED under the specified mathematical assumptions; NUMERICALLY CHECKED; NOT EXTERNALLY PEER REVIEWED; NOVELTY UNCONFIRMED.** Greedy budget allocation and orthogonal-range querying are known techniques; the present specialized combination is not certified as an original discovery. This is exploratory research code, not a production-safe floating-point certificate.
