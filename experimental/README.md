@@ -67,3 +67,33 @@ Reproduce tests from repository root:
 One local audit checked 2,000 randomized instances against an all-pairs analytical threshold oracle, 120 tiny instances against exhaustive half-integer directed-flow and signed-error enumeration, and deterministic boundary and nonconvexity cases. A mistaken hand-written test expectation was corrected after the first test run; no mathematical algorithm correction was needed.
 
 **Scientific status: conditional mathematical proof; numerical tests passed; historical novelty UNCONFIRMED; not independently peer reviewed.** Robustness-radius searches and orthogonal range queries are established techniques. This is a candidate specialized reduction, not an established original discovery.
+
+
+## Exact critical measurement-error budget (complementary theorem)
+
+For fixed *directed flow budget* F, the new function **critical_error_budget(scores, arcs, error_caps, F, k)** returns the minimum *independent measurement-error budget* H at which a top-k boundary tie or reversal first becomes feasible. Returns (None, None, "never") if it is impossible even with all per-node error caps fully used.
+
+The proof uses two offline 2D dominance-max sweeps and checks only exceptional forward crossing arcs, giving **O(m+n log n)** arithmetic/comparison time and **O(m+n)** storage. Integer and Fraction inputs are treated exactly. For integer scores/caps/F, the finite critical H is an integer; for rational data it need not be integer or half-integer.
+
+- [Full mathematical theorem, proof and related work](../research/CRITICAL_ERROR_BUDGET.md)
+- [Core code](critical_error_budget.py)
+- [Independent exact-grid, LP and randomized tests](../tests/test_critical_error_budget.py)
+- [Synthetic scaling illustration](benchmark_critical_error.py)
+- [Companion critical flow-budget theorem (fixed H, minimum F)](../research/CRITICAL_FLOW_BUDGET.md)
+
+Example:
+
+```python
+from experimental.critical_error_budget import critical_error_budget
+
+scores = [10, 7]
+arcs = [(0, 1, 2)]
+error_caps = [2, 2]
+
+assert critical_error_budget(scores, arcs, error_caps, flow_budget=0, k=1)[0] == 3
+assert critical_error_budget(scores, arcs, error_caps, flow_budget=2, k=1)[0] == 0
+```
+
+Reproduce with **python -m pip install -r requirements-test.txt** and **python -m unittest discover -s tests -v**. Local tests passed 2,000 direct all-pairs comparisons, 150 independent exact-rational perturbation enumerations, 110 independently solved SciPy LPs and nine deterministic edge cases.
+
+This is **AI-assisted experimental research, NOT independently peer reviewed, and novelty is UNCONFIRMED**. A pair of exact horizontal/vertical budget threshold oracles does not automatically produce the complete Pareto frontier; the stability region is not necessarily convex. See the manuscript for explicit assumptions.
