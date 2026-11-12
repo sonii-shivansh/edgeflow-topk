@@ -228,3 +228,67 @@ def run_tests():
 
 if __name__ == "__main__":
     run_tests()
+
+
+
+def topk_robustness_margin(scores, edges, B, k):
+    """Return the exact worst-case top-k separation margin.
+
+    Returns (margin, (insider, outsider), source) in O(m+n log n) time
+    and O(m+n) space. The margin equals
+      min_{feasible flows} min_{i in original top-k, j outside} (s'_i-s'_j).
+    Positive means strictly robust; zero means a tie is attainable;
+    negative means some outsider can overtake an original insider.
+    Witness flows can be constructed with constructive_witness.
+    For exact arithmetic use Python int or fractions.Fraction inputs.
+    """
+    n = len(scores)
+    assert B >= 0 and 1 <= k < n
+    capacity = {}
+    for u, v, c in edges:
+        assert 0 <= u < n and 0 <= v < n and u != v and c >= 0
+        e = (min(u, v), max(u, v))
+        assert e not in capacity, "Graph must be simple"
+        capacity[e] = c
+    d = degrees(n, edges)
+    top = sorted(range(n), key=lambda v: (-scores[v], v))[:k]
+    in_top = set(top)
+    outsiders = sorted((j for j in range(n) if j not in in_top),
+                       key=lambda j: d[j])
+    outsider_degrees = [d[j] for j in outsiders]
+    q = len(outsiders)
+    prefix = [None] * q
+    suffix = [None] * q
+    for t, j in enumerate(outsiders):
+        candidate = (scores[j] + d[j], j)
+        prefix[t] = max(prefix[t - 1], candidate) if t else candidate
+    for t in range(q - 1, -1, -1):
+        j = outsiders[t]
+        candidate = (scores[j], j)
+        suffix[t] = max(suffix[t + 1], candidate) if t < q - 1 else candidate
+
+    best = None
+    for i in top:
+        r = bisect_right(outsider_degrees, B - d[i])
+        candidates = []
+        if r:
+            value, j = prefix[r - 1]
+            candidates.append((scores[i] - d[i] - value,
+                               (i, j), "baseline"))
+        if r < q:
+            value, j = suffix[r]
+            candidates.append((scores[i] - B - value,
+                               (i, j), "baseline"))
+        for candidate in candidates:
+            if best is None or candidate[0] < best[0]:
+                best = candidate
+
+    for u, v, _ in edges:
+        if (u in in_top) != (v in in_top):
+            i, j = (u, v) if u in in_top else (v, u)
+            exact = scores[i] - scores[j] - pair_gamma(
+                i, j, d, capacity, B)
+            if exact < best[0]:
+                best = (exact, (i, j), "crossing-edge")
+
+    return best
