@@ -7,3 +7,5 @@ authors:
     given-names: Shivansh
 repository-code: "https://github.com/sonii-shivansh/edgeflow-topk"
 license: MIT
+version: "0.1.0-research"
+date-released: 2026-11-12

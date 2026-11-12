@@ -73,3 +73,9 @@ For now, cite the URL and exact commit hash: https://github.com/sonii-shivansh/e
 A second test suite checks the fast decision directly against exhaustive feasible signed-flow enumeration on **260 integer cases** and **90 exact half-integer cases**, independently of the pairwise formula and LP solver. A large-integer regression test exposed and prompted a correction to floating-point degree initialization. With integer scores, capacities, and budget, the core algorithm now performs **integer arithmetic without avoidable conversion to floats**. Read [tests/test_exact_enumeration.py](tests/test_exact_enumeration.py) and [experiments/RESULTS.md](experiments/RESULTS.md). Floating-point inputs still need special care at exact ties.
 
 An illustrative, single-run synthetic scalability check (not a peer-reviewed benchmark) is in [experiments/benchmark.py](experiments/benchmark.py).
+
+## Public technical research prerelease — 12 November 2026
+
+**[v0.1.0-research](https://github.com/sonii-shivansh/edgeflow-topk/releases/tag/v0.1.0-research)** provides a public, AI-assisted, **unreviewed** technical paper PDF and a fixed source snapshot. The release workflow successfully reran both independent test suites, built the PDF, and attached it to the GitHub prerelease. The version is a public artifact **not** an arXiv posting, peer review, research-novelty certificate, or DOI. Reviewers can examine [issue #1](https://github.com/sonii-shivansh/edgeflow-topk/issues/1), and the authoritative complete [manuscript source](paper/MANUSCRIPT.md) is version-controlled.
+
+An automatic weekly check has been configured to look for substantive new independent reviews, counterexamples, or failures; it does not manufacture or substitute for external scientific review.
