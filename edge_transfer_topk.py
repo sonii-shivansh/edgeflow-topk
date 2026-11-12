@@ -12,7 +12,7 @@ import random
 
 def degrees(n, edges):
     """Weighted capacity degree for each vertex."""
-    d = [0.0] * n
+    d = [0] * n
     for u, v, c in edges:
         assert 0 <= u < n and 0 <= v < n and u != v and c >= 0
         d[u] += c
@@ -22,10 +22,10 @@ def degrees(n, edges):
 
 def pair_gamma(i, j, d, edge_capacity, B):
     """Exact worst-case increase of (updated_score[j] - updated_score[i])."""
-    c = edge_capacity.get((min(i, j), max(i, j)), 0.0)
+    c = edge_capacity.get((min(i, j), max(i, j)), 0)
     other = d[i] + d[j] - 2 * c
     assert other >= -1e-9
-    return 2 * min(c, B) + min(max(0.0, other), max(0.0, B - c))
+    return 2 * min(c, B) + min(max(0, other), max(0, B - c))
 
 
 def certifies_strict_topk(scores, edges, B, k):

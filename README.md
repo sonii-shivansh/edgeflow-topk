@@ -67,3 +67,9 @@ SciPy is used for independent pairwise linear-programming verification; not for 
 This note was prepared with AI assistance; **independent human review is required**. Mathematical correctness under the assumptions is not the same as academic novelty. No journal peer review, arXiv identifier, or DOI is claimed.
 
 For now, cite the URL and exact commit hash: https://github.com/sonii-shivansh/edgeflow-topk . A Zenodo DOI may be obtained separately after publishing an intentional release. Do not claim this as a world-first result without a thorough prior-art review.
+
+## Independent exact-enumeration audit (12 November 2026)
+
+A second test suite checks the fast decision directly against exhaustive feasible signed-flow enumeration on **260 integer cases** and **90 exact half-integer cases**, independently of the pairwise formula and LP solver. A large-integer regression test exposed and prompted a correction to floating-point degree initialization. With integer scores, capacities, and budget, the core algorithm now performs **integer arithmetic without avoidable conversion to floats**. Read [tests/test_exact_enumeration.py](tests/test_exact_enumeration.py) and [experiments/RESULTS.md](experiments/RESULTS.md). Floating-point inputs still need special care at exact ties.
+
+An illustrative, single-run synthetic scalability check (not a peer-reviewed benchmark) is in [experiments/benchmark.py](experiments/benchmark.py).

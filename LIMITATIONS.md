@@ -7,7 +7,7 @@
 5. **Top-k membership, not full order:** Only strict separation of each original insider from every outsider is certified. The internal order inside the top-k is not protected.
 6. **Ties are failures:** A potentially equal insider/outsider pair is not strictly robust even if a deterministic tie-breaker would preserve selected membership.
 7. **Budget definition is essential:** The global constraint is `sum_e |f_e| <= B`. Weighted edge prices, quadratic costs, and path-length costs require a different proof.
-8. **Floating-point implementation:** The mathematical theorem assumes real arithmetic. The Python code uses floats and comparisons, which can be unreliable near the equality threshold or with huge magnitudes. Validate independently or use exact rational/interval arithmetic for critical decisions.
+8. **Floating-point implementation:** The mathematical theorem assumes real arithmetic. For inputs consisting entirely of Python integers, the core algorithm preserves integer arithmetic (after a precision regression fix in November 2026). However, arbitrary floating-point inputs and mixed numeric types can be unreliable near ties or with huge magnitudes. Validate independently or use exact rational/interval arithmetic for critical decisions.
 9. **Input trust:** The code uses assertions, not complete production input validation. It assumes finite numeric capacities/scores/budget and a simple graph. Do not feed untrusted input directly.
 10. **No production benchmarks:** The algorithm has an asymptotic proof, not reported real-world performance benchmarks.
 11. **Research originality unconfirmed:** Similar budgeted optimization and robust ranking themes predate this note; priority cannot be asserted without deeper literature review.
