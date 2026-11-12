@@ -114,3 +114,15 @@ The function [critical_flow_budget](experimental/critical_flow_budget.py) comput
 The associated proof also demonstrates that the set of **jointly safe** (flow, measurement-error) budget pairs may be **nonconvex**, even on a two-node graph. This is a caution for budgeting algorithms, **not a historically verified new mathematical discovery**.
 
 **Status: Model-conditional proof supplied, exact-input tests passed, independent referee review pending, originality UNCONFIRMED.** The original v0.2.0 PDF does not include this subsequent experimental extension; the versioned code and proof above are authoritative for it.
+
+
+## Two complementary exact first-failure budget oracles (experimental)
+
+The directed dual-budget model now has two **complementary one-parameter threshold** algorithms:
+
+- Fixed measurement-error budget H, find the smallest directed-transfer budget F that can destroy strict top-k separation: [critical-flow theorem](research/CRITICAL_FLOW_BUDGET.md), implementation [critical_flow_budget.py](experimental/critical_flow_budget.py).
+- **Fixed directed-transfer budget F, find the smallest global signed measurement-error budget H** that can destroy strict top-k separation: [critical-error theorem](research/CRITICAL_ERROR_BUDGET.md), implementation [critical_error_budget.py](experimental/critical_error_budget.py).
+
+Both run in **O(m+n log n)** comparison/arithmetic time and **O(m+n)** memory under their stated models, returning an attaining crossing pair when the first-failure threshold is finite. The new critical-error implementation supports *exact* Python int and Fraction inputs, including rational thresholds such as 1/3. Its tests include 2,000 independent all-pairs checks, 150 exhaustive rational signed-flow/error cases and 110 independently formulated SciPy linear programs.
+
+These algorithms provide exact horizontal/vertical slices of a potentially **nonconvex** two-budget safe region, **not** a complete Pareto-frontier enumeration or a new lower bound. This work remains **AI-assisted, NOT peer reviewed, and novelty unconfirmed**. A code merge is not a scientific discovery or independent validation. See [review issue #1](https://github.com/sonii-shivansh/edgeflow-topk/issues/1).
