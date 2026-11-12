@@ -110,7 +110,7 @@ def pair_lp_optimum(i, j, n, edges, B):
 
 def constructive_witness(i, j, n, edges, B):
     """Feasible signed edge-flow vector attaining the pairwise bound."""
-    f = [0.0] * len(edges)
+    f = [0] * len(edges)
     remaining = B
     priorities = []
     for t, (u, v, c) in enumerate(edges):
