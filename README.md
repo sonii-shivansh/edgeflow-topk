@@ -79,3 +79,9 @@ An illustrative, single-run synthetic scalability check (not a peer-reviewed ben
 **[v0.1.0-research](https://github.com/sonii-shivansh/edgeflow-topk/releases/tag/v0.1.0-research)** provides a public, AI-assisted, **unreviewed** technical paper PDF and a fixed source snapshot. The release workflow successfully reran both independent test suites, built the PDF, and attached it to the GitHub prerelease. The version is a public artifact **not** an arXiv posting, peer review, research-novelty certificate, or DOI. Reviewers can examine [issue #1](https://github.com/sonii-shivansh/edgeflow-topk/issues/1), and the authoritative complete [manuscript source](paper/MANUSCRIPT.md) is version-controlled.
 
 An automatic weekly check has been configured to look for substantive new independent reviews, counterexamples, or failures; it does not manufacture or substitute for external scientific review.
+
+## Audited quantitative extension (12 November 2026)
+
+The new `topk_robustness_margin(scores, edges, B, k)` function computes the **exact worst-case separation margin** in O(m+n log n) time, returning an attaining insider-outsider pair. Positive means robust; zero means a tie is feasible; negative means an outsider can outrank an insider. See [proof](research/MARGIN_THEOREM.md), [precision and verification self-audit](research/SELF_AUDIT_2026-11-12.md), and [full literature novelty audit](research/NOVELTY_AUDIT_2026-11-12.md). The new suite adds 2,600 all-pairs checks and 420 independent exact-rational signed-flow enumerations. The open [review packet](research/REVIEW_INVITATION.md) explicitly seeks counterexamples and predecessors.
+
+The updated [v0.2.0-audit GitHub research prerelease](https://github.com/sonii-shivansh/edgeflow-topk/releases/tag/v0.2.0-audit) is an unreviewed public artifact. Its existence does **not** prove originality, peer review, an arXiv submission, or a DOI. The previous v0.1.0 release is retained.

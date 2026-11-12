@@ -42,12 +42,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG=v0.1.0-research
+          TAG=v0.2.0-audit
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/edgeflow-topk-research-note.pdf --clobber
+            echo "Release already exists; preserving immutable research record."
           else
             gh release create "$TAG" dist/edgeflow-topk-research-note.pdf \
               --target "$GITHUB_SHA" --prerelease \
-              --title "v0.1.0 research note (UNREVIEWED)" \
-              --notes "Technical proof, implementation, experiments, and limitations. AI-assisted research note. Not peer reviewed; mathematical novelty and priority unconfirmed. Independent scientific review requested in Issue #1."
+              --title "v0.2.0 audited research note (UNREVIEWED)" \
+              --notes "Exact robustness margin extension, self-audit, source, proof, LP and enumeration verification. AI-assisted and NOT PEER REVIEWED. Novelty and priority are unconfirmed. See public review Issue #1."
           fi
