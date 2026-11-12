@@ -1,0 +1,53 @@
+name: Build and publish unreviewed research note
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'paper/MANUSCRIPT.md'
+      - '.github/workflows/research-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install verification dependencies
+        run: python -m pip install -r requirements-test.txt
+      - name: Run independent linear-program verification
+        run: python edge_transfer_topk.py
+      - name: Run exact-grid independent enumeration
+        run: python -m unittest discover -s tests -v
+      - name: Install PDF build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq pandoc texlive-latex-base texlive-latex-recommended lmodern
+      - name: Build research PDF from version-controlled manuscript
+        run: |
+          mkdir -p dist
+          pandoc paper/MANUSCRIPT.md -o dist/edgeflow-topk-research-note.pdf --pdf-engine=pdflatex -V geometry:margin=1in -V fontsize:11pt
+          test -s dist/edgeflow-topk-research-note.pdf
+      - name: Publish PDF as CI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: edgeflow-topk-research-note
+          path: dist/edgeflow-topk-research-note.pdf
+      - name: Publish tagged GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=v0.1.0-research
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/edgeflow-topk-research-note.pdf --clobber
+          else
+            gh release create "$TAG" dist/edgeflow-topk-research-note.pdf \
+              --target "$GITHUB_SHA" --prerelease \
+              --title "v0.1.0 research note (UNREVIEWED)" \
+              --notes "Technical proof, implementation, experiments, and limitations. AI-assisted research note. Not peer reviewed; mathematical novelty and priority unconfirmed. Independent scientific review requested in Issue #1."
+          fi
