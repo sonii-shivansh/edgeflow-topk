@@ -244,13 +244,13 @@ Please open an issue if you find equivalent prior work, a stronger predecessor, 
 
 The original theorem provides a strict yes/no stability test. A stronger quantity is the sharp guaranteed separation of the original top-k set T from all outsiders under any admissible signed transfer:
 
-$
+$$
 \rho(B)=\min_{f\ {\rm feasible}}\ \min_{i\in T,\ j\notin T}\ (s'_i(f)-s'_j(f)).
-$
+$$
 
 **Theorem (quantitative certificate).** With the pairwise bound Gamma_ij and capacity degrees as above, define the cheap baseline L_ij=min(B,d_i+d_j), and let delta(T) be all graph edges joining one original insider with one outsider. Then
 
-$
+$$
 \begin{aligned}
 \rho(B)
 &=\min_{i\in T,\ j\notin T}(s_i-s_j-\Gamma_{ij})\\
@@ -259,7 +259,7 @@ $
 \min_{\{i,j\}\in\delta(T),\ i\in T}(s_i-s_j-\Gamma_{ij})
 \right\}.
 \end{aligned}
-$
+$$
 
 The second inner minimum is defined as positive infinity if there are no crossing edges. The exact value and an attaining pair can be computed using the same degree sorting, prefix/suffix maxima and crossing-edge scan in O(m+n log n) time and O(m+n) space.
 
