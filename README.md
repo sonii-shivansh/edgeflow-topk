@@ -99,3 +99,18 @@ An additional, separately documented research candidate models **one-way directe
 - [Open independent mathematical review issue #1](https://github.com/sonii-shivansh/edgeflow-topk/issues/1)
 
 **Status: PROVED under the specified mathematical assumptions; NUMERICALLY CHECKED; NOT EXTERNALLY PEER REVIEWED; NOVELTY UNCONFIRMED.** Greedy budget allocation and orthogonal-range querying are known techniques; the present specialized combination is not certified as an original discovery. This is exploratory research code, not a production-safe floating-point certificate.
+
+
+## Exact critical transfer budget — experimental theorem (12 November 2026)
+
+The function [critical_flow_budget](experimental/critical_flow_budget.py) computes the **first transfer budget where strict original top-k separation can fail**, with the signed measurement-error budget held fixed. For integer scores, arc capacities, error capacities and measurement budget, the finite threshold is **an integer or half-integer**, and is computable in **O(m+n log n)** time and O(m+n) space without repeated binary search.
+
+- [Complete model, theorem, proof, and limitations](research/CRITICAL_FLOW_BUDGET.md)
+- [Algorithm implementation](experimental/critical_flow_budget.py)
+- [Numerical validation](tests/test_critical_flow_budget.py): 2,000 random pair-threshold checks and 120 independent brute-force flow/error enumerations
+- [Synthetic scaling reproducer](experimental/benchmark_critical_budget.py)
+- [Merged research pull request #3](https://github.com/sonii-shivansh/edgeflow-topk/pull/3)
+
+The associated proof also demonstrates that the set of **jointly safe** (flow, measurement-error) budget pairs may be **nonconvex**, even on a two-node graph. This is a caution for budgeting algorithms, **not a historically verified new mathematical discovery**.
+
+**Status: Model-conditional proof supplied, exact-input tests passed, independent referee review pending, originality UNCONFIRMED.** The original v0.2.0 PDF does not include this subsequent experimental extension; the versioned code and proof above are authoritative for it.
